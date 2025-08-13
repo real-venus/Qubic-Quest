@@ -11,32 +11,32 @@ export class AuthController {
     private readonly prisma: PrismaService,
   ) {}
 
-  @Post("verify-token")
-  async verifyToken(@Body("idToken") idToken: string) {
-    try {
-      const decodedToken = await this.firebaseAdminService.verifyIdToken(
-        idToken,
-      );
-      const { uid, email } = decodedToken;
+  // @Post("verify-token")
+  // async verifyToken(@Body("idToken") idToken: string) {
+  //   try {
+  //     const decodedToken = await this.firebaseAdminService.verifyIdToken(
+  //       idToken,
+  //     );
+  //     const { uid, email } = decodedToken;
 
-      let user = await this.prisma.user.findUnique({
-        where: { uid },
-      });
+  //     let user = await this.prisma.user.findUnique({
+  //       where: { uid },
+  //     });
 
-      if (!user) {
-        user = await this.prisma.user.create({
-          data: {
-            uid,
-            email,
-            username: email.split("@")[0],
-            walletAddress: "",
-          },
-        });
-      }
+  //     if (!user) {
+  //       user = await this.prisma.user.create({
+  //         data: {
+  //           uid,
+  //           email,
+  //           username: email.split("@")[0],
+  //           walletAddress: "",
+  //         },
+  //       });
+  //     }
 
-      return { user };
-    } catch (error) {
-      throw new UnauthorizedException("Invalid token");
-    }
-  }
+  //     return { user };
+  //   } catch (error) {
+  //     throw new UnauthorizedException("Invalid token");
+  //   }
+  // }
 }
